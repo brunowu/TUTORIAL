@@ -4,7 +4,15 @@
 
 #define MASTER    0
 #define BUFSIZE   1024
+<<<<<<< HEAD
 #define NUM2SPAWN 10
+=======
+<<<<<<< HEAD
+#define NUM2SPAWN 10
+=======
+#define NUM2SPAWN 2
+>>>>>>> 5481855a5cef0b6d08847a22818babd0c94666f3
+>>>>>>> 18aaf9bc0795c8f6dd6f2addee80b84671487904
 
 int main( int argc, char *argv[] )
 {
@@ -32,21 +40,47 @@ int main( int argc, char *argv[] )
     /* get the process rank, in this case within the parent communicator */
     MPI_Comm_rank(MPI_COMM_WORLD,&rank);
     MPI_Comm_size(MPI_COMM_WORLD,&size);
+<<<<<<< HEAD
     printf("]> rank %d (of %d) in the parent intra-communicator.\n",rank,size);
+=======
+<<<<<<< HEAD
+    printf("]> rank %d (of %d) in the parent intra-communicator.\n",rank,size);
+=======
+    printf("rank %d (of %d) in the parent intra-communicator.\n",rank,size);
+>>>>>>> 5481855a5cef0b6d08847a22818babd0c94666f3
+>>>>>>> 18aaf9bc0795c8f6dd6f2addee80b84671487904
   }
   else {
     /* notice that the spawned processes have an intra-communicator
  *     ** called MPI_COMM_WORLD, too */
     MPI_Comm_rank(MPI_COMM_WORLD,&rank);
     MPI_Comm_size(MPI_COMM_WORLD,&size);
+<<<<<<< HEAD
     printf("---> rank %d (of %d) in the spawned intra-communicator.\n",rank,size);
+=======
+<<<<<<< HEAD
+    printf("---> rank %d (of %d) in the spawned intra-communicator.\n",rank,size);
+=======
+    printf("rank %d (of %d) in the spawned intra-communicator.\n",rank,size);
+>>>>>>> 5481855a5cef0b6d08847a22818babd0c94666f3
+>>>>>>> 18aaf9bc0795c8f6dd6f2addee80b84671487904
   }
 
   /* we can broadcast to all processes associated with an
  *   ** inter-communicator, e.g. the spawned processes */
   if (rank == MASTER) {
+<<<<<<< HEAD
     message[0] = 'B'; message[1] = 'o'; message[2] = 'n'; message[3] = 'j';
     message[4] = 'o'; message[5] = 'u'; message[6] = 'r'; message[7] = '\0';
+=======
+<<<<<<< HEAD
+    message[0] = 'B'; message[1] = 'o'; message[2] = 'n'; message[3] = 'j';
+    message[4] = 'o'; message[5] = 'u'; message[6] = 'r'; message[7] = '\0';
+=======
+    message[0] = 'g'; message[1] = 'a'; message[2] = 'l'; message[3] = 'o';
+    message[4] = 'r'; message[5] = 'e'; message[6] = '!'; message[7] = '\0';
+>>>>>>> 5481855a5cef0b6d08847a22818babd0c94666f3
+>>>>>>> 18aaf9bc0795c8f6dd6f2addee80b84671487904
   }
   /* BUT remember that broadcast is a collective operation, so all must call..
  *   ** but it's a tad fiddly with all the different groups of processors that
@@ -55,6 +89,10 @@ int main( int argc, char *argv[] )
  *         ** according to the (parent/spawned) perspective. */
   if (parentcomm == MPI_COMM_NULL) {
     if (rank == MASTER) {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 18aaf9bc0795c8f6dd6f2addee80b84671487904
        MPI_Bcast(message,BUFSIZE,MPI_CHAR,MPI_ROOT,spawnedcomm);
     }
     //MPI_Bcast(message,BUFSIZE,MPI_CHAR,MPI_PROC_NULL,spawnedcomm);
@@ -62,6 +100,18 @@ int main( int argc, char *argv[] )
   else {
     MPI_Bcast(message,BUFSIZE,MPI_CHAR,MASTER,parentcomm);
     printf("---> spawned rank %d (of %d).  Master broadcasts: %s\n",rank,size,message);
+<<<<<<< HEAD
+=======
+=======
+      MPI_Bcast(message,BUFSIZE,MPI_CHAR,MPI_ROOT,spawnedcomm);
+    }
+    MPI_Bcast(message,BUFSIZE,MPI_CHAR,MPI_PROC_NULL,spawnedcomm);
+  }
+  else {
+    MPI_Bcast(message,BUFSIZE,MPI_CHAR,MASTER,parentcomm);
+    printf("spawned rank %d (of %d).  Master broadcasts: %s\n",rank,size,message);
+>>>>>>> 5481855a5cef0b6d08847a22818babd0c94666f3
+>>>>>>> 18aaf9bc0795c8f6dd6f2addee80b84671487904
   }
   
   /* A simpler manoeuvre is to (collectively) merge 
@@ -77,7 +127,15 @@ int main( int argc, char *argv[] )
  *   ** merged communicator */
   MPI_Comm_rank(allcomm,&rank);
   MPI_Comm_size(allcomm,&size);
+<<<<<<< HEAD
   printf("]> rank %d (of %d) in the merged intra-communicator.\n",rank,size);
+=======
+<<<<<<< HEAD
+  printf("]> rank %d (of %d) in the merged intra-communicator.\n",rank,size);
+=======
+  printf("rank %d (of %d) in the merged intra-communicator.\n",rank,size);
+>>>>>>> 5481855a5cef0b6d08847a22818babd0c94666f3
+>>>>>>> 18aaf9bc0795c8f6dd6f2addee80b84671487904
   
   /* free communicators when we've finished with them
  *   ** remembering the different names as seen from different
