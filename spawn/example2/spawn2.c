@@ -4,8 +4,6 @@
 
 #define MASTER    0
 #define BUFSIZE   1024
-#define NUM2SPAWN 10
-#define NUM2SPAWN 10
 #define NUM2SPAWN 2
 
 int main( int argc, char *argv[] )
@@ -14,7 +12,7 @@ int main( int argc, char *argv[] )
   int size;
   int np = NUM2SPAWN;
   char message[BUFSIZE];
-  MPI_Comm parentcomm, spawnedcomm, allcomm;
+  MPI_Comm parentcomm, spawnedcomm, allcomm, spawnedcomm2;
   
   /* the usual start-up for any process */
   MPI_Init( &argc, &argv );
@@ -31,12 +29,12 @@ int main( int argc, char *argv[] )
  *         ** argv[0] contains the name of the executable for this program. */
     MPI_Comm_spawn( "spawn2", MPI_ARGV_NULL, np, MPI_INFO_NULL, 0, 
 		    MPI_COMM_WORLD, &spawnedcomm, MPI_ERRCODES_IGNORE );
+    MPI_Comm_spawn( "spawn2", MPI_ARGV_NULL, np, MPI_INFO_NULL, 0,
+                    MPI_COMM_WORLD, &spawnedcomm2, MPI_ERRCODES_IGNORE );
     /* get the process rank, in this case within the parent communicator */
     MPI_Comm_rank(MPI_COMM_WORLD,&rank);
     MPI_Comm_size(MPI_COMM_WORLD,&size);
     printf("]> rank %d (of %d) in the parent intra-communicator.\n",rank,size);
-    printf("]> rank %d (of %d) in the parent intra-communicator.\n",rank,size);
-    printf("rank %d (of %d) in the parent intra-communicator.\n",rank,size);
   }
   else {
     /* notice that the spawned processes have an intra-communicator
@@ -44,8 +42,6 @@ int main( int argc, char *argv[] )
     MPI_Comm_rank(MPI_COMM_WORLD,&rank);
     MPI_Comm_size(MPI_COMM_WORLD,&size);
     printf("---> rank %d (of %d) in the spawned intra-communicator.\n",rank,size);
-    printf("---> rank %d (of %d) in the spawned intra-communicator.\n",rank,size);
-    printf("rank %d (of %d) in the spawned intra-communicator.\n",rank,size);
   }
 
   /* we can broadcast to all processes associated with an
@@ -53,10 +49,6 @@ int main( int argc, char *argv[] )
   if (rank == MASTER) {
     message[0] = 'B'; message[1] = 'o'; message[2] = 'n'; message[3] = 'j';
     message[4] = 'o'; message[5] = 'u'; message[6] = 'r'; message[7] = '\0';
-    message[0] = 'B'; message[1] = 'o'; message[2] = 'n'; message[3] = 'j';
-    message[4] = 'o'; message[5] = 'u'; message[6] = 'r'; message[7] = '\0';
-    message[0] = 'g'; message[1] = 'a'; message[2] = 'l'; message[3] = 'o';
-    message[4] = 'r'; message[5] = 'e'; message[6] = '!'; message[7] = '\0';
   }
   /* BUT remember that broadcast is a collective operation, so all must call..
  *   ** but it's a tad fiddly with all the different groups of processors that
@@ -72,13 +64,6 @@ int main( int argc, char *argv[] )
   else {
     MPI_Bcast(message,BUFSIZE,MPI_CHAR,MASTER,parentcomm);
     printf("---> spawned rank %d (of %d).  Master broadcasts: %s\n",rank,size,message);
-      MPI_Bcast(message,BUFSIZE,MPI_CHAR,MPI_ROOT,spawnedcomm);
-    }
-    MPI_Bcast(message,BUFSIZE,MPI_CHAR,MPI_PROC_NULL,spawnedcomm);
-  }
-  else {
-    MPI_Bcast(message,BUFSIZE,MPI_CHAR,MASTER,parentcomm);
-    printf("spawned rank %d (of %d).  Master broadcasts: %s\n",rank,size,message);
   }
   
   /* A simpler manoeuvre is to (collectively) merge 
@@ -95,8 +80,6 @@ int main( int argc, char *argv[] )
   MPI_Comm_rank(allcomm,&rank);
   MPI_Comm_size(allcomm,&size);
   printf("]> rank %d (of %d) in the merged intra-communicator.\n",rank,size);
-  printf("]> rank %d (of %d) in the merged intra-communicator.\n",rank,size);
-  printf("rank %d (of %d) in the merged intra-communicator.\n",rank,size);
   
   /* free communicators when we've finished with them
  *   ** remembering the different names as seen from different

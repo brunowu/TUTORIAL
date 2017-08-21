@@ -7,7 +7,6 @@ int main( int argc, char *argv[] )
     int np[2] = { 1, 1 };
     int errcodes[2];
     MPI_Comm parentcomm, intercomm, incom;
-    MPI_Comm parentcomm, intercomm;
     char *cmds[2] = { "spawn1", "spawn2" };
     MPI_Info infos[2] = { MPI_INFO_NULL, MPI_INFO_NULL };
 
