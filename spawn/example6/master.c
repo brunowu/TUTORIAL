@@ -26,25 +26,25 @@ int main( int argc, char *argv[] ) {
   int intra_rank, intra_rank2;
   MPI_Comm_rank(intra_comm, &intra_rank);
   MPI_Comm_rank(intra_comm2, &intra_rank2);
-  printf("I am rank %d of intra_comm\n",intra_rank);
-  printf("I am rank %d of intra_comm2\n",intra_rank2);
+ // printf("I am rank %d of intra_comm\n",intra_rank);
+ // printf("I am rank %d of intra_comm2\n",intra_rank2);
 
   if ( rank == 0 ) {
     int tmp_size;
     int tmp_size2;
     MPI_Comm_size( intra_comm, &tmp_size );
     MPI_Comm_size( intra_comm2, &tmp_size2 );
-    printf( "size of intra comm world = %d\n", tmp_size );
-    printf( "size of intra comm2 world = %d\n", tmp_size2 );
+  //  printf( "size of intra comm world = %d\n", tmp_size );
+  //  printf( "size of intra comm2 world = %d\n", tmp_size2 );
 
     MPI_Comm_remote_size( child_comm, &tmp_size );
     MPI_Comm_remote_size( child_comm2, &tmp_size2 );
-    printf( "size of child comm world = %d\n", tmp_size );
-    printf( "size of child comm2 world = %d\n", tmp_size2 );
+  //  printf( "size of child comm world = %d\n", tmp_size );
+  //  printf( "size of child comm2 world = %d\n", tmp_size2 );
     MPI_Comm_size( MPI_COMM_WORLD, &tmp_size );
     MPI_Comm_size( MPI_COMM_WORLD, &tmp_size2 );
-    printf( "size of parent comm world = %d\n", tmp_size );
-    printf( "size of parent comm2 world = %d\n", tmp_size2 );
+ //   printf( "size of parent comm world = %d\n", tmp_size );
+ //   printf( "size of parent comm2 world = %d\n", tmp_size2 );
   }
 
   int msg;
@@ -53,7 +53,10 @@ int main( int argc, char *argv[] ) {
   printf("\n###Recv msg = %d from child \n", msg);
   MPI_Barrier(MPI_COMM_WORLD);
   msg = msg + 89;
-  MPI_Send(&msg, 1,MPI_INT, 1,0,intra_comm2); 
+  
+  MPI_Request request;
+  MPI_Isend(&msg,1,MPI_INT, 1,0,intra_comm2,&request);
+  //MPI_Send(&msg, 1,MPI_INT, 1,0,intra_comm2); 
   MPI_Comm_free(&child_comm);
   MPI_Comm_free(&intra_comm);
   MPI_Comm_free(&intra_comm2);
