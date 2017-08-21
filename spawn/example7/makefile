@@ -21,9 +21,17 @@ PC=none
 ATOL=1e-10
 MAT=utm300.mtx_300x300_3155nnz
 
+
+
+ARNOLDI_PRECISION=1e-1
+ARNOLDI_NBEIGEN= 18
+ARNOLDI_MONITOR = -eps_monitor_conv
+ARNOLDI_NCV = 100
+
+
 include ${PETSC_DIR}/lib/petsc/conf/variables
 include ${PETSC_DIR}/lib/petsc/conf/rules
-
+include ${SLEPC_DIR}/lib/slepc/conf/slepc_common
 blib :
 	-@echo "BEGINNING TO COMPILE LIBRARIES "
 	-@echo "========================================="
@@ -56,14 +64,15 @@ slave1: slave.o
 slave2: slave2.o
 	-@echo "BEGINNING TO COMPILE SLAVE2 "
 	-@echo "========================================="
-	-@${CLINKER} -o ${SLAVE2} slave2.o ${PETSC_LIB}
+	-@${CLINKER} -o ${SLAVE2} slave2.o -L${SLEPC_LIB} -L${SLEPC_DIR}/${PETSC_ARCH}/lib
 	-@echo "Completed SLAVE2 Compilation"
 	-@echo "========================================="
 #-ksp_monitor_true_residual -eps_monitor
 
 runa:
 	-@${MPIEXEC} -np ${MPI_NODES} ./${EXEC} -ksp fgmres ${GMRES_MONITOR} -ksp_gmres_restart ${GMRES_RESTART} ${KSP_MONITOR} -ksp_rtol ${RTOL} \
-		-ksp_divtol ${DIVTOL} -ksp_max_it ${MAX_ITE} -pc_type ${PC} -ksp_atol ${ATOL} -mfile utm300.mtx_300x300_3155nnz 
+		-ksp_divtol ${DIVTOL} -ksp_max_it ${MAX_ITE} -pc_type ${PC} -ksp_atol ${ATOL} -mfile utm300.mtx_300x300_3155nnz \
+	-eps_ncv ${ARNOLDI_NCV} -eps_type arnoldi -eps_true_residual -eps_largest_imaginary -eps_nev ${ARNOLDI_NBEIGEN} -eps_tol ${ARNOLDI_PRECISION} ${ARNOLDI_MONITOR} -eps_max_it 50  
 
 
 

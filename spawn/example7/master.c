@@ -8,7 +8,7 @@ int main( int argc, char *argv[] ) {
   MPI_Comm_rank( MPI_COMM_WORLD, &rank );
 
   MPI_Comm child_comm, child_comm2;
-  int  num_processes_to_spawn = 1;
+  int  num_processes_to_spawn = 2;
   MPI_Comm_spawn( "./worker", argv+1,
 		  num_processes_to_spawn, MPI_INFO_NULL,
 		  0, MPI_COMM_WORLD,
