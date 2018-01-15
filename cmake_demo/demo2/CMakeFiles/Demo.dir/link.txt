@@ -1,0 +1,1 @@
+/usr/bin/c++     -fPIC CMakeFiles/Demo.dir/MathFunctions.o CMakeFiles/Demo.dir/main.o  -o Demo -rdynamic 

@@ -1,0 +1,7 @@
+
+
+  
+  The following steps are needed now:
+  - run ./configure
+  - run make
+  - run ./src/helloWorld
