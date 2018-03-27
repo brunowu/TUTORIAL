@@ -8,3 +8,5 @@ target_link_libraries(main PRIVATE ${MPI_C_LIBRARIES} hello_lib world_lib)
 
 target_include_directories(main PRIVATE ${MPI_C_INCLUDE_PATH}) 
 
+install(TARGETS main DESTINATION bin)
+
