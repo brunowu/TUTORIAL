@@ -1,5 +1,5 @@
 #include "AppleWrapper.h"
-#include "apple.cpp"
+#include "apple.h"
 
 #ifdef __cplusplus
 extern "C" {
