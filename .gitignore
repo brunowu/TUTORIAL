@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Prerequisites
 *.d
 
@@ -30,3 +31,20 @@
 *.exe
 *.out
 *.app
+=======
+*.o
+*.a
+*.dsp
+*.dsw
+*.opt
+*.plg
+*.ncb
+*.suo
+*.sdf
+*.user
+Debug/
+ipch/
+Release/
+bin/
+*.bak
+>>>>>>> Cpp-Tutorial-Samples/master
