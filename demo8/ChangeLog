@@ -1,0 +1,10 @@
+
+version 2.0
+
+ - separation of class definition and main function containing .cpp file
+ - class member documentation in doxygen style
+ - configure.ac revisited
+
+version 1.0
+
+ - simple class with main function in the class' .cpp file
